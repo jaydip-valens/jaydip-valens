@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320" role="img" aria-label="Aurora animation">
+  <style>
+    .tw { animation: tw 6s ease-in-out infinite; }
+    @keyframes tw { 0%,100% { opacity: .15; } 50% { opacity: 1; } }
+
+    .drift1 { animation: d1 15s ease-in-out infinite alternate; }
+    .drift2 { animation: d2 30s ease-in-out infinite alternate; }
+    .drift3 { animation: d3 30s ease-in-out infinite alternate; }
+    @keyframes d1 { from { transform: translate(-70px,-6px); } to { transform: translate(70px,8px); } }
+    @keyframes d2 { from { transform: translate(80px,6px); }   to { transform: translate(-80px,-8px); } }
+    @keyframes d3 { from { transform: translateX(-50px) scaleY(.9); } to { transform: translateX(50px) scaleY(1.15); } }
+
+    .breathe { animation: br 12s ease-in-out infinite; }
+    @keyframes br { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+
+    /* vertical curtain rays sliding through the aurora */
+    .rays { animation: rays 15s linear infinite; }
+    @keyframes rays { from { transform: translateX(0); } to { transform: translateX(-60px); } }
+
+    /* shooting stars */
+    .shoot1 { animation: sh 12s linear infinite; opacity: 0; }
+    .shoot2 { opacity: 0; animation: sh 20s linear infinite; animation-delay:6s; }
+    @keyframes sh { 0%,80% { opacity: 0; transform: translate(0,0); } 82% { opacity: 1; } 92%,100% { opacity: 0; transform: translate(-300px,140px); } }
+
+    /* fireflies drifting up from the ridge */
+    .fly { animation: fly 20s linear infinite; opacity: 0; }
+    @keyframes fly {
+      0%   { transform: translate(0,0);       opacity: 0; }
+      15%  { opacity: 1; }
+      50%  { transform: translate(18px,-70px); }
+      85%  { opacity: .9; }
+      100% { transform: translate(-10px,-150px); opacity: 0; }
+    }
+
+
+    .moon { animation: moon 15s ease-in-out infinite; transform-origin: 812px 58px; }
+    @keyframes moon { 0%,100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.12); } }
+
+    .ripple { animation: rip 10s ease-in-out infinite; }
+    @keyframes rip { 0%,100% { opacity: .15; transform: scaleX(1); } 50% { opacity: .35; transform: scaleX(1.04); } }
+
+
+    /* birds: cross the sky, bob gently; wings flap via SMIL */
+    .fly1 { animation: cross 30s linear infinite; }
+    .fly2 { animation: cross 20s linear infinite; animation-delay: -12s; }
+    @keyframes cross { from { transform: translateX(-80px); } to { transform: translateX(980px); } }
+    .bob  { animation: bob 5s ease-in-out infinite; }
+    .bob2 { animation: bob 4s ease-in-out infinite; animation-delay: -1.5s; }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-6px) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(0deg); } 75% { transform: translateY(-4px) rotate(2deg); } }
+
+    text { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; }
+  </style>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#03040c"/>
+      <stop offset=".6" stop-color="#07122a"/>
+      <stop offset="1" stop-color="#0d1b33"/>
+    </linearGradient>
+
+    <!-- ribbon colours cycle slowly between teal / magenta / amber -->
+    <linearGradient id="rTeal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0"/>
+      <stop offset=".45" stop-color="#2dd4bf" stop-opacity=".9">
+        <animate attributeName="stop-color" dur="30s" values="#2dd4bf;#22c55e;#38bdf8;#2dd4bf" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="1" stop-color="#22c55e" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rMag" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e879f9" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#c026d3" stop-opacity=".75">
+        <animate attributeName="stop-color" dur="30s" values="#c026d3;#6366f1;#db2777;#c026d3" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rAmb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbbf24" stop-opacity="0"/>
+      <stop offset=".55" stop-color="#f59e0b" stop-opacity=".5">
+        <animate attributeName="stop-color" dur="20s" values="#f59e0b;#f43f5e;#facc15;#f59e0b" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="1" stop-color="#f43f5e" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- the veil: faster, stronger turbulence with animated displacement -->
+    <filter id="warp1" x="-20%" y="-40%" width="140%" height="180%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.03" numOctaves="2" seed="3" result="n">
+        <animate attributeName="baseFrequency" dur="20s" values="0.006 0.03;0.01 0.05;0.005 0.025;0.006 0.03" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="80" xChannelSelector="R" yChannelSelector="G">
+        <animate attributeName="scale" dur="15s" values="60;110;60" repeatCount="indefinite"/>
+      </feDisplacementMap>
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <filter id="warp2" x="-20%" y="-40%" width="140%" height="180%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.004 0.02" numOctaves="2" seed="11" result="n">
+        <animate attributeName="baseFrequency" dur="30s" values="0.004 0.02;0.008 0.04;0.004 0.02" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="100" xChannelSelector="G" yChannelSelector="B">
+        <animate attributeName="scale" dur="20s" values="80;130;80" repeatCount="indefinite"/>
+      </feDisplacementMap>
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+    <filter id="warp3" x="-20%" y="-40%" width="140%" height="180%">
+      <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="1" seed="7" result="n">
+        <animate attributeName="baseFrequency" dur="15s" values="0.01 0.05;0.016 0.08;0.01 0.05" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="60" xChannelSelector="R" yChannelSelector="B">
+        <animate attributeName="scale" dur="12s" values="40;90;40" repeatCount="indefinite"/>
+      </feDisplacementMap>
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
+
+    <!-- curtain rays -->
+    <pattern id="rayPat" width="30" height="320" patternUnits="userSpaceOnUse">
+      <rect x="0" width="6" height="320" fill="#fff" opacity=".22"/>
+      <rect x="14" width="3" height="320" fill="#fff" opacity=".12"/>
+    </pattern>
+    <linearGradient id="rayFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".35" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".7" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="rayMask"><rect width="900" height="320" fill="url(#rayFade)"/></mask>
+
+    <radialGradient id="moonGlow">
+      <stop offset="0" stop-color="#fef9c3" stop-opacity=".9"/>
+      <stop offset=".25" stop-color="#fef3c7" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#fef3c7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ridgeFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#02030a"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity=".5"/><stop offset="1" stop-color="#c026d3" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="frame"><rect width="900" height="320" rx="14"/></clipPath>
+      </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="900" height="320" fill="url(#sky)"/>
+
+    <!-- moon -->
+    <g class="moon">
+      <circle cx="812" cy="58" r="60" fill="url(#moonGlow)"/>
+      <circle cx="812" cy="58" r="13" fill="#fefce8"/>
+      <circle cx="818" cy="54" r="11" fill="#07122a" opacity=".9"/>
+    </g>
+
+    <!-- stars -->
+    <g fill="#fff">
+      <circle class="tw" cx="60"  cy="40"  r="1.2"/>
+      <circle class="tw" cx="140" cy="90"  r="0.9" style="animation-delay:2.8s"/>
+      <circle class="tw" cx="230" cy="28"  r="1.4" style="animation-delay:1.5s"/>
+      <circle class="tw" cx="330" cy="70"  r="0.8" style="animation-delay:1s"/>
+      <circle class="tw" cx="410" cy="22"  r="1.1" style="animation-delay:4.8s"/>
+      <circle class="tw" cx="520" cy="55"  r="0.9" style="animation-delay:3.2s"/>
+      <circle class="tw" cx="610" cy="30"  r="1.3" style="animation-delay:0.5s"/>
+      <circle class="tw" cx="700" cy="80"  r="0.8" style="animation-delay:2.2s"/>
+      <circle class="tw" cx="750" cy="20"  r="1.2" style="animation-delay:5s"/>
+      <circle class="tw" cx="860" cy="120" r="0.9" style="animation-delay:4s"/>
+      <circle class="tw" cx="30"  cy="150" r="0.8" style="animation-delay:3.5s"/>
+      <circle class="tw" cx="480" cy="95"  r="0.7" style="animation-delay:2s"/>
+      <circle class="tw" cx="180" cy="15"  r="1"   style="animation-delay:5.5s"/>
+      <circle class="tw" cx="660" cy="110" r="0.8" style="animation-delay:1.2s"/>
+    </g>
+
+    <!-- shooting stars -->
+    <g class="shoot1"><line x1="720" y1="30" x2="770" y2="8" stroke="#fff" stroke-width="1.8" stroke-linecap="round" filter="url(#glow)"/></g>
+    <g class="shoot2"><line x1="420" y1="20" x2="460" y2="2" stroke="#a5f3fc" stroke-width="1.4" stroke-linecap="round" filter="url(#glow)"/></g>
+
+    <!-- aurora ribbons, three depths / speeds -->
+    <g class="breathe" style="mix-blend-mode:screen">
+      <g class="drift3" filter="url(#warp2)">
+        <path d="M-60,150 C120,40 260,190 450,90 S760,40 960,130 L960,230 C760,150 600,210 450,190 S120,160 -60,240 Z" fill="url(#rMag)"/>
+      </g>
+      <g class="drift2" filter="url(#warp3)">
+        <path d="M-60,120 C150,170 300,40 480,110 S780,170 960,70 L960,150 C780,230 620,160 480,180 S160,220 -60,200 Z" fill="url(#rAmb)"/>
+      </g>
+      <g class="drift1" filter="url(#warp1)">
+        <path d="M-60,80 C100,20 250,150 430,60 S740,10 960,90 L960,190 C760,120 600,180 430,150 S110,120 -60,190 Z" fill="url(#rTeal)"/>
+      </g>
+      <!-- shimmering curtain rays -->
+      <g mask="url(#rayMask)" filter="url(#warp1)" opacity=".7">
+        <rect class="rays" x="0" y="0" width="1000" height="320" fill="url(#rayPat)"/>
+      </g>
+    </g>
+
+
+    <!-- flying birds (flap, flap, glide) -->
+    <g class="fly1"><g class="bob">
+      <g transform="translate(0,80) scale(1.2)">
+        <path d="M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6" stroke-linejoin="round">
+          <animate attributeName="d" dur="2s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.93;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,1.8 -10,3 Q-15,3.0 -18,9 Q-14,6.0 -9,5.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,5.5 Q14,6.0 18,9 Q15,3.0 10,3 Q6,1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,1.8 -10,3 Q-15,3.0 -18,9 Q-14,6.0 -9,5.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,5.5 Q14,6.0 18,9 Q15,3.0 10,3 Q6,1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -22,2 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 22,2 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -22,2 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 22,2 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z"/>
+        </path>
+        <ellipse cx="0" cy="1.6" rx="4.2" ry="2.1" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6"/>
+        <circle cx="4.6" cy="0.6" r="1.7" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6"/>
+        <path d="M5.9,0.4 L8,0.9 L6,1.3 Z" fill="#0a0f1f"/>
+        <path d="M-4,1.2 L-8,0 L-7.2,2 L-8,3.6 L-4,2.4 Z" fill="#0a0f1f"/>
+      </g>
+      <g transform="translate(-50,98) scale(0.95)">
+        <path d="M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6" stroke-linejoin="round">
+          <animate attributeName="d" dur="2s" begin="-0.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.93;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,1.8 -10,3 Q-15,3.0 -18,9 Q-14,6.0 -9,5.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,5.5 Q14,6.0 18,9 Q15,3.0 10,3 Q6,1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,1.8 -10,3 Q-15,3.0 -18,9 Q-14,6.0 -9,5.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,5.5 Q14,6.0 18,9 Q15,3.0 10,3 Q6,1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -22,2 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 22,2 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -22,2 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 22,2 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z"/>
+        </path>
+        <ellipse cx="0" cy="1.6" rx="4.2" ry="2.1" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6"/>
+        <circle cx="4.6" cy="0.6" r="1.7" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6"/>
+        <path d="M5.9,0.4 L8,0.9 L6,1.3 Z" fill="#0a0f1f"/>
+        <path d="M-4,1.2 L-8,0 L-7.2,2 L-8,3.6 L-4,2.4 Z" fill="#0a0f1f"/>
+      </g>
+    </g></g>
+    <g class="fly2"><g class="bob2">
+      <g transform="translate(0,56) scale(0.75)">
+        <path d="M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6" stroke-linejoin="round">
+          <animate attributeName="d" dur="1.5s" begin="-0.4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.93;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,1.8 -10,3 Q-15,3.0 -18,9 Q-14,6.0 -9,5.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,5.5 Q14,6.0 18,9 Q15,3.0 10,3 Q6,1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,1.8 -10,3 Q-15,3.0 -18,9 Q-14,6.0 -9,5.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,5.5 Q14,6.0 18,9 Q15,3.0 10,3 Q6,1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -21,-5 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 21,-5 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -22,2 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 22,2 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-1.8 -10,-3 Q-15,-3.0 -22,2 Q-14,0.0 -9,-0.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-0.5 Q14,0.0 22,2 Q15,-3.0 10,-3 Q6,-1.8 2,0 Z;M-2,0 Q-6,-4.2 -10,-7 Q-15,-7.0 -18,-14 Q-14,-4.0 -9,-4.5 Q-5,2.5 -2,2.5 L2,2.5 Q5,2.5 9,-4.5 Q14,-4.0 18,-14 Q15,-7.0 10,-7 Q6,-4.2 2,0 Z"/>
+        </path>
+        <ellipse cx="0" cy="1.6" rx="4.2" ry="2.1" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6"/>
+        <circle cx="4.6" cy="0.6" r="1.7" fill="#0a0f1f" stroke="#cbd5e1" stroke-opacity=".4" stroke-width=".6"/>
+        <path d="M5.9,0.4 L8,0.9 L6,1.3 Z" fill="#0a0f1f"/>
+        <path d="M-4,1.2 L-8,0 L-7.2,2 L-8,3.6 L-4,2.4 Z" fill="#0a0f1f"/>
+      </g>
+    </g></g>
+
+    <!-- mountains -->
+    <polygon points="0,320 0,255 70,228 130,250 210,205 280,240 350,215 420,250 500,196 580,238 650,210 730,245 800,218 900,250 900,320" fill="url(#ridgeFade)"/>
+
+    <!-- lake reflection -->
+    <g class="ripple" style="transform-origin:450px 285px">
+      <rect x="0" y="270" width="900" height="30" fill="url(#lake)" filter="url(#warp3)"/>
+    </g>
+    <polygon points="0,320 0,290 90,280 170,294 260,282 360,296 470,284 560,298 660,286 760,296 900,288 900,320" fill="#02030a"/>
+
+    <!-- fireflies -->
+    <g fill="#fde68a" filter="url(#glow)">
+      <circle class="fly" cx="120" cy="270" r="2"/>
+      <circle class="fly" cx="260" cy="280" r="1.6" style="animation-delay:3.8s"/>
+      <circle class="fly" cx="390" cy="275" r="2.2" style="animation-delay:8s"/>
+      <circle class="fly" cx="540" cy="282" r="1.5" style="animation-delay:2s"/>
+      <circle class="fly" cx="670" cy="272" r="2"   style="animation-delay:11s"/>
+      <circle class="fly" cx="800" cy="278" r="1.7" style="animation-delay:6s"/>
+      <circle class="fly" cx="330" cy="285" r="1.4" style="animation-delay:15s"/>
+      <circle class="fly" cx="740" cy="284" r="1.4" style="animation-delay:17.8s"/>
+    </g>
+
+    <!-- title (static) -->
+    <text x="450" y="150" text-anchor="middle" font-size="46" font-weight="200" letter-spacing="14" fill="#f1f5f9" filter="url(#glow)">HELLO, TRAVELER</text>
+    <text x="450" y="188" text-anchor="middle" font-size="15" letter-spacing="6" fill="#a5f3fc" opacity=".9">CODE · COFFEE · CURIOSITY</text>
+  </g>
+</svg>
